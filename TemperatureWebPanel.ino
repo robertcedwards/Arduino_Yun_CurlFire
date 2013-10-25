@@ -38,7 +38,6 @@
 #include <YunClient.h> 
 #include <TinkerKit.h>
 
-		      // temperature readings are returned in float format
 String startString;
 long hits = 0;
 int F;
@@ -131,7 +130,7 @@ void loop() {
   String brightnessstring = String(brightnessVal);
 
   Process p;        // Create a process and call it "p"
-p.runShellCommand("curl -k -X POST https://yun.firebaseio.com/Sensors/Huddle_1/.json -d '{ \"temp\" : \" " + tempstring + " \",\"brightness\" :  \" " + brightnessstring + " \"}'");  
+p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Sensors/Huddle_1/.json -d '{ \"temp\" : \" " + tempstring + " \", \"brightness\" :  \" " + brightnessstring + " \"}'");  
 // p.runShellCommand("curl -u " + username + ":" + password + " \"https://mail.google.com/mail/feed/atom/" + label + "\" -k --silent |grep -o \"<fullcount>[0-9]*</fullcount>\" |grep -o \"[0-9]*\"");
 
 //p.runShellCommand("curl -k -X POST https://yun.firebaseio.com/Names/.json -d '{ \"first\" : \"firstname\",\"last\" : \"lastname\"}'");  
