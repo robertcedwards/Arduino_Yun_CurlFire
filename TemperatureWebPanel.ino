@@ -79,7 +79,7 @@ void loop() {
       brightnessVal = ldr.read(); 
 
   Process p;        // Create a process and call it "p"
-    p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Huddles/one/.json -d '{ \"temp\" : \" " + tempstring + " \", \"brightness\" :  \" " + brightnessstring + " \"}'");  
+    p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Huddles/one/.json -d '{ \"temp\" : \" " +tempstring+ " \", \"brightness\" :  \" " +brightnessstring+ " \"}'");  
 
 
   // Get clients coming from server
