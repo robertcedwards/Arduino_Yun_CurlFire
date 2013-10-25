@@ -72,6 +72,14 @@ void setup() {
 
 void loop() {
   // Setup the Tinkerit Kit here
+ String tempstring = String(F);
+ String brightnessstring = String(brightnessVal);
+      
+      F = therm.readFahrenheit();  	// Reading the temperature in Fahrenheit degrees and store in the F variable
+      brightnessVal = ldr.read(); 
+
+  Process p;        // Create a process and call it "p"
+    p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Huddles/one/.json -d '{ \"temp\" : \" " + tempstring + " \", \"brightness\" :  \" " + brightnessstring + " \"}'");  
 
 
   // Get clients coming from server
@@ -95,8 +103,8 @@ void loop() {
       }
 
       Serial.println(timeString);
-      F = therm.readFahrenheit();  	// Reading the temperature in Fahrenheit degrees and store in the F variable
-      brightnessVal = ldr.read();            
+    //  F = therm.readFahrenheit();  	// Reading the temperature in Fahrenheit degrees and store in the F variable
+      //brightnessVal = ldr.read();            
       
       // print the temperature:
       client.print("Current time on the Yún: ");
@@ -125,11 +133,11 @@ void loop() {
   }
 
   delay(50); // Poll every 50ms
-  String tempstring = String(F);
-  String brightnessstring = String(brightnessVal);
+ // String tempstring = String(F);
+ // String brightnessstring = String(brightnessVal);
 
-  Process p;        // Create a process and call it "p"
-p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Huddles/1/.json -d '{ \"temp\" : \" " + tempstring + " \", \"brightness\" :  \" " + brightnessstring + " \"}'");  
+ // Process p;        // Create a process and call it "p"
+//p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Huddles/1/.json -d '{ \"temp\" : \" " + tempstring + " \", \"brightness\" :  \" " + brightnessstring + " \"}'");  
 // p.runShellCommand("curl -u " + username + ":" + password + " \"https://mail.google.com/mail/feed/atom/" + label + "\" -k --silent |grep -o \"<fullcount>[0-9]*</fullcount>\" |grep -o \"[0-9]*\"");
 
 //p.runShellCommand("curl -k -X POST https://yun.firebaseio.com/Names/.json -d '{ \"first\" : \"firstname\",\"last\" : \"lastname\"}'");  
