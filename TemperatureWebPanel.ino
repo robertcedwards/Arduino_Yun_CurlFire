@@ -41,11 +41,10 @@
 String startString;
 long hits = 0;
 int F;
+int brightnessVal;
 TKThermistor therm(I0);       // creating the object 'therm' that belongs to the 'TKThermistor' class
 TKLightSensor ldr(I1);	//create the "ldr" object on port I1
-String brightnessVal;
-String temp;  
-String newtemp;
+
 // Listen on default port 5555, the webserver on the Yun
 // will forward there all the HTTP requests for us.
 YunServer server;
@@ -97,7 +96,7 @@ void loop() {
 
       Serial.println(timeString);
       F = therm.readFahrenheit();  	// Reading the temperature in Fahrenheit degrees and store in the F variable
-      int brightnessVal = ldr.read();            
+      brightnessVal = ldr.read();            
       
       // print the temperature:
       client.print("Current time on the Yún: ");
@@ -130,7 +129,7 @@ void loop() {
   String brightnessstring = String(brightnessVal);
 
   Process p;        // Create a process and call it "p"
-p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Sensors/Huddle_1/.json -d '{ \"temp\" : \" " + tempstring + " \", \"brightness\" :  \" " + brightnessstring + " \"}'");  
+p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Huddles/1/.json -d '{ \"temp\" : \" " + tempstring + " \", \"brightness\" :  \" " + brightnessstring + " \"}'");  
 // p.runShellCommand("curl -u " + username + ":" + password + " \"https://mail.google.com/mail/feed/atom/" + label + "\" -k --silent |grep -o \"<fullcount>[0-9]*</fullcount>\" |grep -o \"[0-9]*\"");
 
 //p.runShellCommand("curl -k -X POST https://yun.firebaseio.com/Names/.json -d '{ \"first\" : \"firstname\",\"last\" : \"lastname\"}'");  
@@ -138,7 +137,7 @@ p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Sensors/Huddle_1/
 }
 
   
-
+  
 
 
 
