@@ -1,36 +1,6 @@
 /*
-  Temperature web interface
- 
- This example shows how to serve data from an analog input  
- via the Arduino Yún's built-in webserver using the Bridge library.
- 	
- The circuit:
- * TMP36 temperature sensor on analog pin A1
- * SD card attached to SD card slot of the Arduino Yún
- 
- Prepare your SD card with an empty folder in the SD root 
- named "arduino" and a subfolder of that named "www". 
- This will ensure that the Yún will create a link 
- to the SD to the "/mnt/sd" path.
- 
- In this sketch folder is a basic webpage and a copy of zepto.js, a 
- minimized version of jQuery.1`  When you upload your sketch, these files
- will be placed in the /arduino/www/TemperatureWebPanel folder on your SD card.
- 
- You can then go to http://arduino.local/sd/TemperatureWebPanel
- to see the output of this sketch.
- 
- You can remove the SD card while the Linux and the 
- sketch are running but be careful not to remove it while
- the system is writing to it.
- 
- created  6 July 2013
- by Tom Igoe
- 
- This example code is in the public domain.
- 
- http://arduino.cc/en/Tutorial/TemperatureWebPanel
- 
+This is a sketch to show how to use input data from a Tinkerit shield to curl -k -d up to Firebase for realtime sensor data.
+This also creates a Yun Bridge server and client in order to debug locally
  */
 
 #include <Bridge.h>
