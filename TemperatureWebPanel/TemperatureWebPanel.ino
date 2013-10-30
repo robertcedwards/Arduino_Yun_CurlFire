@@ -44,7 +44,9 @@ int F;
 int brightnessVal;
 TKThermistor therm(I0);       // creating the object 'therm' that belongs to the 'TKThermistor' class
 TKLightSensor ldr(I1);	//create the "ldr" object on port I1
-
+int pirState = LOW;
+int inputPin = 2;
+int val = 0;
 // Listen on default port 5555, the webserver on the Yun
 // will forward there all the HTTP requests for us.
 YunServer server;
@@ -53,6 +55,7 @@ void setup() {
   Serial.begin(9600);
   // Bridge startup
   pinMode(13,OUTPUT);
+  pinMode(inputPin,INPUT);
   digitalWrite(13, LOW);
   Bridge.begin();
   digitalWrite(13, HIGH);
@@ -77,10 +80,32 @@ void loop() {
       
       F = therm.readFahrenheit();  	// Reading the temperature in Fahrenheit degrees and store in the F variable
       brightnessVal = ldr.read(); 
+      val = digitalRead(inputPin);  // read PIR pin value
+        if (val == HIGH) {            // check if the input is HIGH
+    digitalWrite(ledPin, HIGH);  // turn LED ON
+    if (pirState == LOW) {
+      // we have just turned on
+      Serial.println("Motion detected!");
+        Process p;        // Create a process and call it "p"
+    p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Huddles/one/.json -d '{ \"motion\" : \"Detected!\" }'");  
+      
+      // We only want to print on the output change, not state
+      pirState = HIGH;
+    }
+  } else {
+    digitalWrite(ledPin, LOW); // turn LED OFF
+    if (pirState == HIGH){
+      // we have just turned of
+      Serial.println("Motion ended!");
+  Process p;        // Create a process and call it "p"
+    p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Huddles/one/.json -d '{ \"motion\" : \"Not Detected!\" }'");  
+            pirState = LOW;
+    }
+  }
 
   Process p;        // Create a process and call it "p"
     p.runShellCommand("curl -k -X PATCH https://yun.firebaseio.com/Huddles/one/.json -d '{ \"temp\" : \" "+tempstring+" \", \"brightness\" :  \" "+brightnessstring+" \"}'");  
-
+ delay(500);
 
   // Get clients coming from server
   YunClient client = server.accept();
